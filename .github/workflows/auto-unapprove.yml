@@ -2,7 +2,7 @@ name: Auto Unapprove
 
 on:
   pull_request:
-    types: [synchronize]
+    types: [opened, synchronize, reopened]
 
 jobs:
   auto-unapprove:
@@ -10,12 +10,12 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      issues: write
     steps:
       - uses: poulok/auto-unapprove@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pr-number: ${{ github.event.number }}
           dry-run: "false"
+          code-owners-file: ".github/CODEOWNERS"
           target-branch: ${{ github.event.pull_request.base.ref }}
           team-start-with: "@"
